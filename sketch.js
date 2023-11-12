@@ -37,32 +37,32 @@ function shoot(){
     
     if(character.rotation <= 20 && character.rotation >= -20){
         projectile = new Sprite(characterX,characterY-30,15);
-        projectile.vel.y-=2;
+        projectile.vel.y-=3;
     } else if(character.rotation >= -110 && character.rotation <= -70){
         projectile = new Sprite(characterX-30,characterY,15);
-        projectile.vel.x-=2;
+        projectile.vel.x-=3;
     } else if(character.rotation <= -160 && character.rotation >= -180 || character.rotation >= 160 && character.rotation <= 180){
         projectile = new Sprite(characterX,characterY+30,15);
-        projectile.vel.y+=2;
+        projectile.vel.y+=3;
     } else if(character.rotation >= 70 && character.rotation <= 110){
         projectile = new Sprite(characterX+30,characterY,15);
-        projectile.vel.x+=2;
+        projectile.vel.x+=3;
     } else if(character.rotation<=0 && character.rotation >= -90){
         projectile = new Sprite(characterX-30,characterY-30,15);
-        projectile.vel.x-=2;
-        projectile.vel.y-=2;
+        projectile.vel.x-=3;
+        projectile.vel.y-=3;
     } else if(character.rotation<=-90 && character.rotation >= -180){
         projectile = new Sprite(characterX-30,characterY+30,15);
-        projectile.vel.x-=2;
-        projectile.vel.y+=2;
+        projectile.vel.x-=3;
+        projectile.vel.y+=3;
     } else if(character.rotation>=0 && character.rotation<=90){
         projectile = new Sprite(characterX+30,characterY-30,15);
-        projectile.vel.x+=2;
-        projectile.vel.y-=2;
+        projectile.vel.x+=3;
+        projectile.vel.y-=3;
     } else{
         projectile = new Sprite(characterX+30,characterY+30,15);
-        projectile.vel.x+=2;
-        projectile.vel.y+=2;
+        projectile.vel.x+=3;
+        projectile.vel.y+=3;
     }
     projectile.color = "white";
     projectiles.push(projectile);
@@ -87,59 +87,59 @@ function spawnEnemy(){
     if(rand===0){
         let enemy = new Sprite(canvasX/2, 0, 50);
         enemy.color = "red";
-        enemy.vel.y=2;
+        enemy.vel.y=8;
         enemies.push(enemy);
     }
-    if(rand===2){
+    if(rand===1){
         let enemy = new Sprite(1080, 0, 50);
         enemy.color = "red";
-        enemy.vel.x=-2;
-        enemy.vel.y=2;
+        enemy.vel.x=-8;
+        enemy.vel.y=8;
         enemies.push(enemy);
     }
 
     if(rand===2){
         let enemy = new Sprite(1080, canvasY/2, 50);
         enemy.color = "red";
-        enemy.vel.x=-2;
+        enemy.vel.x=-8;
         enemies.push(enemy);
     }
 
     if(rand===3){
         let enemy = new Sprite(1080, 1080, 50);
         enemy.color = "red";
-        enemy.vel.x=-2;
-        enemy.vel.y=-2;
+        enemy.vel.x=-8;
+        enemy.vel.y=-8;
         enemies.push(enemy);
     }
 
     if(rand===4){
         let enemy = new Sprite(canvasX/2, 1080, 50);
         enemy.color = "red";
-        enemy.vel.y=-2;
+        enemy.vel.y=-8;
         enemies.push(enemy);
     }
 
     if(rand===5){
         let enemy = new Sprite(0, 1080, 50);
         enemy.color = "red";
-        enemy.vel.x=2;
-        enemy.vel.y=-2;
+        enemy.vel.x=8;
+        enemy.vel.y=-8;
         enemies.push(enemy);
     }
 
     if(rand===6){
         let enemy = new Sprite(0, canvasY/2, 50);
         enemy.color = "red";
-        enemy.vel.x=2;
+        enemy.vel.x=8;
         enemies.push(enemy);
     }
 
     if(rand===7){
         let enemy = new Sprite(0, 0, 50);
         enemy.color = "red";
-        enemy.vel.y=2;
-        enemy.vel.x=2;
+        enemy.vel.y=8;
+        enemy.vel.x=8;
         enemies.push(enemy);
     }
 }
@@ -214,10 +214,10 @@ function draw(){
 
         if(keyIsPressed){
             if(key === "d" || key === "D"){
-                character.rotation+=4; 
+                character.rotation+=7; 
             }
             if(key === "a" || key === "A"){
-                character.rotation-=4; 
+                character.rotation-=7; 
             }
         }
     
