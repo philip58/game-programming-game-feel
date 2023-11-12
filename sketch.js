@@ -1,6 +1,10 @@
 //world variables
 let canvasX = 1080;
 let canvasY = 1080;
+let count = 0;
+let gameStarted = false;
+let enemiesDestroyed = 0;
+let gameLost = false;
 
 //character variables
 let character;
@@ -11,16 +15,21 @@ let characterY = canvasY/2;
 let projectile;
 let projectiles = [];
 
+//enemy variables
+//let enemy;
+let enemies = [];
+
+
 //call shoot when space is pressed
 function keyPressed(){
-    if(key === " "){
+    if(key === " " && gameStarted){
         shoot();
-    }
-    
+    } 
 }
 
 //shoot function
 function shoot(){
+    
     if(character.rotation <= 20 && character.rotation >= -20){
         projectile = new Sprite(characterX,characterY-30,15);
         projectile.vel.y-=2;
@@ -52,7 +61,12 @@ function shoot(){
     }
     projectile.color = "white";
     projectiles.push(projectile);
-    console.log(projectile.x);
+}
+
+function mouseClicked(){
+    if(gameStarted === false){
+        gameStarted = true;
+    }
 }
 
 function setup(){
@@ -63,17 +77,110 @@ function setup(){
     character.color = "white";
 }
 
+function spawnEnemy(){
+    let rand = Math.floor(random(0,8));
+    if(rand===0){
+        let enemy = new Sprite(canvasX/2, 0, 50);
+        enemy.color = "red";
+        enemy.vel.y=2;
+        enemies.push(enemy);
+    }
+    if(rand===2){
+        let enemy = new Sprite(1080, 0, 50);
+        enemy.color = "red";
+        enemy.vel.x=-2;
+        enemy.vel.y=2;
+        enemies.push(enemy);
+    }
+
+    if(rand===2){
+        let enemy = new Sprite(1080, canvasY/2, 50);
+        enemy.color = "red";
+        enemy.vel.x=-2;
+        enemies.push(enemy);
+    }
+
+    if(rand===3){
+        let enemy = new Sprite(1080, 1080, 50);
+        enemy.color = "red";
+        enemy.vel.x=-2;
+        enemy.vel.y=-2;
+        enemies.push(enemy);
+    }
+
+    if(rand===4){
+        let enemy = new Sprite(canvasX/2, 1080, 50);
+        enemy.color = "red";
+        enemy.vel.y=-2;
+        enemies.push(enemy);
+    }
+
+    if(rand===5){
+        let enemy = new Sprite(0, 1080, 50);
+        enemy.color = "red";
+        enemy.vel.x=2;
+        enemy.vel.y=-2;
+        enemies.push(enemy);
+    }
+
+    if(rand===6){
+        let enemy = new Sprite(0, canvasY/2, 50);
+        enemy.color = "red";
+        enemy.vel.x=2;
+        enemies.push(enemy);
+    }
+
+    if(rand===7){
+        let enemy = new Sprite(0, 0, 50);
+        enemy.color = "red";
+        enemy.vel.y=2;
+        enemy.vel.x=2;
+        enemies.push(enemy);
+    }
+}
+
 function draw(){
     clear();
     background(0);
 
-    if(keyIsPressed){
-        if(key === "d" || key === "D"){
-            character.rotation+=2; 
-        }
-        if(key === "a" || key === "A"){
-            character.rotation-=2; 
-        }
+    if(!gameStarted){
+        fill(255);
+        textSize(30);
+        text("Click Anywhere To Start", 10, 50);
+        text("Press Space Bar To Shoot", 10, 100);
+        text("Press A and D To Rotate Player", 10, 150);
+        text("Destroy 20 Enemies To Win The Game", 10, 200);
     }
-    console.log(character.rotation);
+
+    if(gameStarted){
+        count++;
+        fill(255);
+        textSize(30);
+        text("Enemies Destroyed: " + enemiesDestroyed, 400, 100);
+        
+        for(let i = 0; i < projectiles.length; i++){
+            for(let j = 0; j < enemies.length; j++){
+                if(projectiles[i].collides(enemies[j])){
+                    enemies[j].remove();
+                    projectiles[i].remove();
+                    enemiesDestroyed++;
+                    console.log("hit");
+                }
+            }
+        }
+
+        if(keyIsPressed){
+            if(key === "d" || key === "D"){
+                character.rotation+=4; 
+            }
+            if(key === "a" || key === "A"){
+                character.rotation-=4; 
+            }
+        }
+    
+        if(Math.floor(count)%60===0){
+            spawnEnemy();
+        }
+
+    }
 }
