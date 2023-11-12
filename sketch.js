@@ -6,6 +6,9 @@ let gameStarted = false;
 let enemiesDestroyed = 0;
 let gameLost = false;
 let gameWon = false;
+let camx = 0;
+let camy = 0;
+let shakeScreen = false;
 
 //character variables
 let character;
@@ -25,6 +28,7 @@ let enemies = [];
 function keyPressed(){
     if(key === " " && gameStarted){
         shoot();
+        shakeTheScreen(50);
     } 
 }
 
@@ -140,14 +144,44 @@ function spawnEnemy(){
     }
 }
 
+function moveCamera(){
+    camx = random() * 5;
+    camy = random() * 5;
+    console.log(camx);
+    console.log(camy);
+}
+
+function shakeTheScreen(time){
+    shakeScreen = true;
+    setTimeout(stopShakingScreen,time);
+}
+
+function stopShakingScreen(){
+    shakeScreen = false;
+    camx = 0;
+    camy = 0;
+}
+
+function gameOver(){
+    shakeTheScreen(4000);
+}
+
 function draw(){
     clear();
     background(0);
+    translate(camx,camy);
+
+    if(shakeScreen){
+        moveCamera();
+    }
+
     if(gameWon && !gameStarted){
+        gameOver();
         fill(255);
         textSize(50);
         text("YOU WON!!!", canvasX/2-125, canvasY/2-100);
     } else if(gameLost && !gameStarted){
+        gameOver();
         fill(255);
         textSize(50);
         text("YOU LOST!", canvasX/2-125, canvasY/2-100);
@@ -173,6 +207,7 @@ function draw(){
                     projectiles[i].remove();
                     enemiesDestroyed++;
                     console.log("hit");
+                    shakeTheScreen(150);
                 }
             }
         }
