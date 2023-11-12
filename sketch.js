@@ -5,6 +5,7 @@ let count = 0;
 let gameStarted = false;
 let enemiesDestroyed = 0;
 let gameLost = false;
+let gameWon = false;
 
 //character variables
 let character;
@@ -64,7 +65,7 @@ function shoot(){
 }
 
 function mouseClicked(){
-    if(gameStarted === false){
+    if(gameStarted === false && !gameLost){
         gameStarted = true;
     }
 }
@@ -142,8 +143,15 @@ function spawnEnemy(){
 function draw(){
     clear();
     background(0);
-
-    if(!gameStarted){
+    if(gameWon && !gameStarted){
+        fill(255);
+        textSize(50);
+        text("YOU WON!!!", canvasX/2-125, canvasY/2-100);
+    } else if(gameLost && !gameStarted){
+        fill(255);
+        textSize(50);
+        text("YOU LOST!", canvasX/2-125, canvasY/2-100);
+    } else if(!gameStarted && !gameWon && !gameLost){
         fill(255);
         textSize(30);
         text("Click Anywhere To Start", 10, 50);
@@ -181,6 +189,21 @@ function draw(){
         if(Math.floor(count)%60===0){
             spawnEnemy();
         }
+        
+        for(let i = 0; i < enemies.length; i++){
+            if(enemies[i].collides(character)){
+                character.remove();
+                gameLost = true;
+                gameStarted = false;
+            }
+        }
 
+        if(enemiesDestroyed===50){
+            for(let i = 0; i < enemies.length; i++){
+                enemies[i].remove();
+            }
+            gameWon = true;
+            gameStarted = false;
+        }
     }
 }
